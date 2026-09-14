@@ -1,0 +1,11 @@
+build/
+install/
+log/
+
+.ros/
+.gazebo/
+*.bag
+*.db3
+rosbag2_*/
+
+
