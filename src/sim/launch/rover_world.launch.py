@@ -1,5 +1,3 @@
-# Launch using 'ros2 launch sim rover_world.launch.py'
-
 import os
 
 from ament_index_python.packages import get_package_share_directory
@@ -9,13 +7,15 @@ from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import EnvironmentVariable
 
+from launch_ros.actions import Node
+
 
 def generate_launch_description():
-    """Build the Gazebo launch description and model resource path."""
     sim_share = get_package_share_directory('sim')
     ros_gz_sim_share = get_package_share_directory('ros_gz_sim')
     models_path = os.path.join(sim_share, 'models')
     world_path = os.path.join(models_path, 'world.sdf')
+    bridge_config = os.path.join(sim_share, 'config', 'bridge.yaml')
 
     resource_path = SetEnvironmentVariable(
         name='GZ_SIM_RESOURCE_PATH',
@@ -33,7 +33,16 @@ def generate_launch_description():
         launch_arguments={'gz_args': ['-r ', world_path]}.items(),
     )
 
+    bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='ros_gz_bridge',
+        output='screen',
+        parameters=[{'config_file': bridge_config}],
+    )
+
     return LaunchDescription([
         resource_path,
         gazebo,
+        bridge,
     ])

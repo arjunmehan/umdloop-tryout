@@ -15,6 +15,8 @@ setup(
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'),
             glob('launch/*.launch.py')),
+        (os.path.join('share', package_name, 'config'),
+            glob('config/*.yaml')),
         (os.path.join('share', package_name, 'models'),
             glob('models/*.sdf')),
         (os.path.join('share', package_name, 'models', 'rover'),
@@ -23,9 +25,9 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='arjun',
-    maintainer_email='arjun@todo.todo',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    maintainer_email='',
+    description='',
+    license='',
     extras_require={
         'test': [
             'pytest',
